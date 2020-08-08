@@ -286,6 +286,7 @@
  * 新建文章：分区列表（checkbox选择分区），文本编辑（空），标签列表（必须新建）
  * 查看自己的文章：分区列表（可编辑，从后端获取），标签列表（可编辑，从后端获取），文本编辑（从后端获取内容填充，可以编辑），社交区域，评论
  */
+import Vue from "vue"
 import myHeader from "@/components/header/header.vue"//顶栏
 import personInfo from "@/components/personInfo.vue"//个人信息展示
 import comment from "@/components/Comment.vue"
@@ -299,6 +300,8 @@ import subscribe_icon from "@/static/icon_subscribe.png"
 import profile_icon from "@/static/icon_profile.png"
 import delete_icon from "@/static/icon_delete.png"
 import message from "@/components/message.vue"
+import mavonEditor from "mavon-editor"
+Vue.use(mavonEditor);
 
 export default {
     name:"ArticlePage",

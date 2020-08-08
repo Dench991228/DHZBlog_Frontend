@@ -11,7 +11,8 @@
         text-align:left;
         background:#fff;
         border-bottom:1px solid #cccccc;
-        z-index:9999
+        z-index:9999;
+        min-wdith:1200px;
         "
     >
       <!--logo-->
@@ -70,7 +71,15 @@
       <!--搜索区-->
       <div
         id="searchOfTopline"
-        style="display:inline-block;width:25%;vertical-align:middle;padding:0px 0px;height:100%;margin-left:40%;text-align:center"
+        style="
+          display:inline-block;
+          width:25%;
+          vertical-align:middle;
+          padding:0px 0px;
+          height:100%;
+          margin-left:40%;
+          text-align:center;
+          min-width:320px"
       >
         <div style="height:30%"></div>
         <form style="width:100%;height:40%;text-align:center">
@@ -80,7 +89,7 @@
             placeholder="请输入内容"
             v-model="search.Value"
             @change="changeEvent"
-            style="width:55%;display:inline-block;height:100%;vertical-align:middle;padding-left:5px;text-align:left"
+            style="width:50%;display:inline-block;height:100%;vertical-align:middle;padding-left:5px;text-align:left"
           />
           <button
             slot="append"
@@ -89,7 +98,7 @@
             style="width:20%;display:inline-block;margin-left:0px;padding:0px 0px;height:100%;vertical-align:middle;text-align:center"
           >
             <img :src="this.src_search" width="20%" style="vertical-align:middle;display:inline-block">
-            <p style="display:inline-block;width=60%;margin-top:5%;margin-bottom:5%;height=30%">全文</p>
+            <p style="display:inline-block;width=60%;margin-top:5%;margin-bottom:5%;height=30%;font-size:100%">全文</p>
           </button>
           <button
             slot="append"
@@ -98,7 +107,7 @@
             style="width:20%;display:inline-block;margin-left:0px;padding:0px 0px;vertical-align:middle;height:100%"
           >
             <img :src="this.src_search" width="20%" style="vertical-align:middle;display:inline-block">
-            <p style="display:inline-block;width=60%;margin-top:5%;margin-bottom:5%;height=30%">标签</p>
+            <p style="display:inline-block;width=50%;margin-top:5%;margin-bottom:5%;height=30%;font-size:100%">标签</p>
           </button>
         </form>
       </div>
@@ -375,6 +384,7 @@ export default {
   },
   props: ['Article'],
   created() {
+    console.log("current uid:"+this.$store.state.userProfile.UID);
     this.getPartition();
     this.getLocalData(-1)
   },

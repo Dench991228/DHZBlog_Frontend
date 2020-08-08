@@ -10,10 +10,10 @@ import 'mavon-editor/dist/css/index.css'
 import mavonEditor from 'mavon-editor'
 import store from "./store";
 import {Message} from 'element-ui';
-Vue.use(mavonEditor);
 Vue.config.productionTip = false;
 Vue.prototype.$axios = axios;
-//axios.defaults.baseURL = '/api';
+Vue.prototype.$message = Message;
+axios.defaults.baseURL = '/api';
 /* eslint-disable no-new */
 Vue.use(ElementUI);
 new Vue({
