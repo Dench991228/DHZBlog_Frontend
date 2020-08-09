@@ -11,7 +11,7 @@
         text-align:left;
         background:#fff;
         border-bottom:1px solid #cccccc;
-        z-index:9999;
+        z-index:0;
         min-wdith:1200px;
         "
     >
@@ -138,7 +138,7 @@
           <h2 >分区列表</h2>
         </div>
         <ul style="list-style:none;padding-left:0px;margin-top:0px;margin-bottom:0px">
-          <li :class="getPartitionClass('-1')" style="padding-top:5px;padding-bottom:5px">
+          <li class="selectedPartition" style="padding-top:5px;padding-bottom:5px" id="partition0">
             <img :src="this.src_all" width="15%" style="display:inline-block;vertical-align:middle">
             <span 
               slot="title" 
@@ -153,7 +153,7 @@
               全部分区
             </span>
           </li>
-          <li v-for="(item,i) in getpart" :key="i" :class="getPartitionClass(item.partition_pid)" style="padding-top:5px;padding-bottom:5px">
+          <li v-for="(item,i) in getpart" :key="i" class="partitions" style="padding-top:5px;padding-bottom:5px" :id="'partition'+(i+1)">
             <img :src= "geturl(item.partition_icon_url)" width="15%" style="display:inline-block;vertical-align:middle">
             <span 
               slot="title" 
@@ -245,7 +245,7 @@
             <div id="buttons">
               <div 
                 style="vertical-align:middle;margin-top:0px;padding:10px 0 10px 0" 
-                :class="getPartitionClass('new_article')" 
+                :class="'partitions'" 
                 @mouseover="setHovered('new_article')" 
                 @mouseout="setHovered('')"
               >
@@ -264,7 +264,7 @@
               </div>
               <div 
                 style="vertical-align:middle;margin-top:0px;padding:10px 0 10px 0"
-                :class="getPartitionClass('profile')"
+                :class="'partitions'"
                 @mouseover="setHovered('profile')"
                 @mouseout="setHovered('')"
               >
@@ -283,7 +283,7 @@
               </div>
               <div 
                 style="vertical-align:middle;margin-top:0px;padding:10px 0 10px 0"
-                :class="getPartitionClass('logout')"
+                :class="'partitions'"
                 @mouseover="setHovered('logout')"
                 @mouseout="setHovered('')"
               >
@@ -425,7 +425,12 @@ export default {
       this.isDynamic=false;
       this.form.Value=_sectorID;
       this.form.UID=this.$store.state.userProfile.UID;
-      this.selectedPartition=_sectorID;
+      let selected = document.getElementsByClassName("selectedPartition");
+      var i;
+      for(i=0;i<selected.length;i++){
+        selected[i].setAttribute("class","partitions");
+      }
+      document.getElementById("partition"+_sectorID).setAttribute("class","selectedPartition");
       this.$axios
         .post("/getArticle", QS.stringify(this.form))
         .then(response => {
@@ -475,6 +480,12 @@ export default {
       this.form.UID=this.$store.state.userProfile.UID;
       this.form.Value=_sectorID;
       this.selectedPartition="-1";
+      let selected = document.getElementsByClassName("selectedPartition");
+      var i;
+      for(i=0;i<selected.length;i++){
+        selected[i].setAttribute("class","partitions");
+      }
+      if(document.getElementById("partition0")!=null)document.getElementById("partition0").setAttribute("class","selectedPartition");
       this.$axios
       .post('/getArticle',QS.stringify(this.form)).then(response => {
         this.localData.Titles = response.data.Titles
@@ -623,20 +634,20 @@ export default {
 </script>
 <style>
 /*关于分区列表的种种，右边栏也用同样的一套*/
-.selectedPartition{
-  font-weight:bolder;
-  color:black;
-  background:#e8e8e8;
-}
-.calmPartition{
+.partitions{
   font-weight:bold;
   color:black;
   background:#f8f8f8;
 }
-.hoveredPartition{
+.partitions:hover{
   font-weight:bolder;
   color:blue;
   background:#f0f0f0;
+}
+.selectedPartition{
+  font-weight:bolder;
+  color:black;
+  background:#e8e8e8;
 }
 /*关于顶栏的种种*/
 .selectedHeader{

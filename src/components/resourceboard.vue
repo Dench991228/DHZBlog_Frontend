@@ -125,6 +125,12 @@ export default {
           this.resources.push({file_name:a,getUrl:b,deleteUrl:c});
           let rid = response.data.RID;
           this.rids.push(rid);
+          this.$message({
+            message:"文件上传成功",
+            duration:1000,
+            showClose:true,
+            type:"success"
+          })
       })
       .catch(error => {
           // 请求失败
@@ -143,6 +149,12 @@ export default {
       {
           this.resources.splice(index,1);
           this.rids.splice(index,1);
+          this.$message({
+            message:"删除文件成功",
+            duration:1000,
+            type:"success",
+            showClose:true
+          })
       })
       .catch(error => {
           // 请求失败

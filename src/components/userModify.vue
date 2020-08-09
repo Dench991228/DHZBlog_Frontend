@@ -280,10 +280,12 @@ export default {
                   this.form.new_password="";
                   this.form.new_password_confirmation="";
                   this.$message({
-                  message:
-                    "修改成功，\\(^o^)/~。",
-                  type: "success",
-                  customClass: "c-msg"
+                    message:
+                      "修改成功，\\(^o^)/~。",
+                    type: "success",
+                    customClass: "c-msg",
+                    duration:1000,
+                    showClose:true
                   });
                 }
                 else{

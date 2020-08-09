@@ -175,7 +175,7 @@ export default {
                 this.$store.commit('changeUserName',response.data.username);
                 this.$router.replace("/");
                 this.$message({
-                    message: response.data.uid,
+                    message:"注册成功，完成邮箱验证之后即可登录",
                     type: "success",
                     customClass: "c-msg",
                     showClose: true

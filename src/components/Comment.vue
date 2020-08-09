@@ -34,10 +34,10 @@
             </div>
             <!--回复评论和删除评论-->
             <div class="icon-btn" style="margin-bottom:10px;padding-bottom:5px" v-if="myuid!=null">
-                <p @click="showReplyInput(i,item.name,item.cid)" style="display:inline-block;vertical-align:middle">
+                <p @click="showReplyInput(i,item.name,item.cid)" style="display:inline-block;vertical-align:middle;cursor:pointer">
                     <i class="iconfont el-icon-s-comment"></i>
                 </p>
-                <p @click="deleteComment(item.cid)" style="display:inline-block;vertical-align:middle">
+                <p @click="deleteComment(item.cid)" style="display:inline-block;vertical-align:middle;cursor:pointer">
                     删除
                 </p>
             </div>
@@ -243,39 +243,51 @@ export default {
                 this.$axios
                     .post("/DeleteComment", QS.stringify(param_data))
                     .then(response => {
-                      console.log(response.data);
+                        console.log(response.data);
+                        this.$message({
+                            message:"删除回复成功",
+                            type:"success",
+                            showClose:true,
+                            duration:1000
+                        })
                     })
                     .catch(error => {
-                      this.$message({
-                        message: "ssfd",
-                        type: "error",
-                        customClass: "c-msg",
-                        duration: 0,
-                        showClose: true
-                      });
-                      Promise.reject(error);
+                        this.$message({
+                            message: "删除评论失败",
+                            type: "error",
+                            customClass: "c-msg",
+                            duration: 1000,
+                            showClose: true
+                        });
+                        Promise.reject(error);
                     });
         },
         deleteReplyComment(cid,i){
-                this.comments[i].reply.remove(cid)
-                var param_data = {};
-                param_data.CID=cid.CID;
-                console.log(param_data);
-                this.$axios
-                    .post("/DeleteComment", QS.stringify(param_data))
-                    .then(response => {
-                      console.log(response.data);
+            var param_data = new FormData();
+            param_data.append("CID",cid);
+            this.comments[i].reply.remove(cid)
+            console.log(param_data);
+            this.$axios
+                .post("/DeleteComment", param_data)
+                .then(response => {
+                    console.log(response.data);
+                    this.$message({
+                        message:"删除回复成功",
+                        type:"success",
+                        showClose:true,
+                        duration:1000
                     })
-                    .catch(error => {
-                      this.$message({
-                        message: "ssfd",
+                })
+                .catch(error => {
+                    this.$message({
+                        message: "删除回复失败",
                         type: "error",
                         customClass: "c-msg",
-                        duration: 0,
+                        duration: 1000,
                         showClose: true
-                      });
-                      Promise.reject(error);
                     });
+                    Promise.reject(error);
+                });
         },
         sendComment(){
             if(!this.replyComment){
@@ -308,6 +320,12 @@ export default {
                     .post("/NewComment", QS.stringify(param_data))
                     .then(response => {
                       a.cid=response.data.CID;
+                      this.$message({
+                          message:"评论成功",
+                          type:"success",
+                          duration:1000,
+                          showClose:true
+                      })
                     })
                     .catch(error => {
                       this.$message({
@@ -356,6 +374,12 @@ export default {
                     .post("/ReplyComment", QS.stringify(param_data))
                     .then(response => {
                       a.cid=response.data;
+                      this.$message({
+                          message:"回复成功",
+                          type:"success",
+                          showClose:true,
+                          duration:1000
+                      })
                     })
                     .catch(error => {
                       this.$message({

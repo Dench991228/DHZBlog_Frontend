@@ -128,7 +128,7 @@
                             @click="changeLikeStatus"
                             @mouseover="setHoveredMiddleBtn('like')"
                             @mouseout="setHoveredMiddleBtn('')"
-                            :class="getClassMiddleBtn('like')"
+                            class="middle"
                         >   
                             <img :src="this.src_btn_like" width="15%" style="vertical-align:middle"/>
                             <span style="vertical-align:middle">{{numLike}}喜欢</span>
@@ -151,7 +151,7 @@
                             @click="changeCollectStatus"
                             @mouseover="setHoveredMiddleBtn('collect')"
                             @mouseout="setHoveredMiddleBtn('')"
-                            :class="getClassMiddleBtn('collect')"
+                            class="middle"
                         >   
                             <img :src="this.src_btn_collection" width="15%" style="vertical-align:middle">
                             <span style="vertical-align:middle">{{collectionBtnTitle}}</span>
@@ -177,7 +177,7 @@
                             @click="deleteArticle()"
                             @mouseover="setHoveredMiddleBtn('delete')"
                             @mouseout="setHoveredMiddleBtn('')"
-                            :class="getClassMiddleBtn('delete')"
+                            class="middle"
                         >
                             <img :src="this.src_btn_delete" width="15%" style="vertical-align:middle"/>
                             <span style="vertical-align:middle">删除本文</span>
@@ -200,7 +200,7 @@
                             v-if="this.mode!='view'"
                             @mouseover="setHoveredMiddleBtn('new')"
                             @mouseout="setHoveredMiddleBtn('')"
-                            :class="getClassMiddleBtn('new')"
+                            class="middle"
                         >
                             <img :src="this.src_btn_send" width="15%" style="vertical-align:middle"/>
                             <span style="vertical-align:middle">{{articleBtnTitle}}</span>
@@ -236,12 +236,12 @@
                 <div style="border-top:1px solid #dddddd">
                     <!--关注作者-->
                     <div 
-                        v-if="this.$store.state.userProfile.UID!=null"
+                        v-if="this.mode!='new'"
                         style="width:100%;padding:10px 0 10px 0;cursor:pointer"
                         @click="changeSubscribeStatus()"
                         @mouseover="setHoveredRightBtn('subscribe')"
                         @mouseout="setHoveredRightBtn('')"
-                        :class="getClassRightBtn('subscribe')"
+                        class="right"
                     >
                         <img :src="src_btn_subscribe" width="10%" style="vertical-align:middle"/>
                         <span 
@@ -261,7 +261,7 @@
                         @click="toProfile()"
                         @mouseover="setHoveredRightBtn('profile')"
                         @mouseout="setHoveredRightBtn('')"
-                        :class="getClassRightBtn('profile')"
+                        class="right"
                     >
                         <img :src="src_btn_profile" width="10%" style="vertical-align:middle"/>
                         <span 
@@ -300,8 +300,6 @@ import subscribe_icon from "@/static/icon_subscribe.png"
 import profile_icon from "@/static/icon_profile.png"
 import delete_icon from "@/static/icon_delete.png"
 import message from "@/components/message.vue"
-import mavonEditor from "mavon-editor"
-Vue.use(mavonEditor);
 
 export default {
     name:"ArticlePage",
@@ -469,16 +467,17 @@ export default {
             .then((response)=>{
                 if(response.data.Status){
                     //console.log("发送成功！");
-                    vm.message.shown=true;
-                    vm.message.text="文章发送成功，即将跳转到主页"
-                    vm.message.type='success'
+                    this.$message({
+                        message:"文章发送成功，即将跳转到主页",
+                        type:"success",
+                        duration:2000,
+                        showClose:true
+                    })
                     setTimeout(()=>{
-                        vm.message.shown=false
                         this.$router.push({
                             path:"/"
                         })
                     },2000);
-                    
                 }
             })
             .catch(error=>{
@@ -568,13 +567,13 @@ export default {
                 })
                 .catch(error=>{
                     this.$message({
-                    message: "点赞失败，请稍后再试",
-                    type: "error",
-                    customClass: "c-msg",
-                    duration: 0,
-                    showClose: true,
-                    duration: 1000
-                })
+                        message: "点赞失败，请稍后再试",
+                        type: "error",
+                        customClass: "c-msg",
+                        duration: 0,
+                        showClose: true,
+                        duration: 1000
+                    })
                 })
             }
         },
@@ -651,11 +650,13 @@ export default {
             this.$axios.post("/DelArticle",form)
             .then(response=>{
                 if(response.data.Status){
-                    this.message.shown=true;
-                    this.message.type='success';
-                    this.message.text='文章删除成功，即将跳转到主页';
+                    this.$message({
+                        message:"删除文章成功，即将跳转主页",
+                        type:"success",
+                        duration:2000,
+                        showClose:true
+                    });
                     setTimeout(()=>{
-                        this.message.shown=false
                         this.$router.push({
                             path:"/"
                         })
@@ -697,22 +698,24 @@ export default {
 }
 </script>
 <style scoped>
-.hoveredRight{
-    font-weight: bold;
-    color:blue;
-    background:#f0f0f0
-}
-.calmRight{
+/*右边栏的按钮 */
+.right{
     font-weight: bold;
     color:black;
     background:#f8f8f8
 }
-.hoveredMiddle{
-    font-weight:bolder;
-    background:#7799ff;
+.right:hover{
+    font-weight: bold;
+    color:blue;
+    background:#f0f0f0
 }
-.calmMiddle{
+/*中区社交的按钮 */
+.middle{
     font-weight: bold;
     background:#99aaff;
+}
+.middle:hover{
+    font-weight:bolder;
+    background:#7799ff;
 }
 </style>

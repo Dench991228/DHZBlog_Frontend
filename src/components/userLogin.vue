@@ -96,10 +96,10 @@ export default {
               }
               else{//登录成功
                 this.$message({
-                  message:
-                    "【" + response.data.UID + "】，登录成功，\\(^o^)/~。",
+                  message:"登录成功，\\(^o^)/~。",
                   type: "success",
-                  customClass: "c-msg"
+                  customClass: "c-msg",
+                  showClose:true
                 });
                 //this.successLogin(response.data.access_token);
                 this.$store.commit('changeUserState',true);

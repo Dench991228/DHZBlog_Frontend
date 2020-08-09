@@ -9,13 +9,14 @@ import "element-ui/lib/theme-chalk/index.css";
 import 'mavon-editor/dist/css/index.css'
 import mavonEditor from 'mavon-editor'
 import store from "./store";
-import {Message} from 'element-ui';
+import {Message} from "element-ui";
 Vue.config.productionTip = false;
 Vue.prototype.$axios = axios;
-Vue.prototype.$message = Message;
 axios.defaults.baseURL = '/api';
 /* eslint-disable no-new */
 Vue.use(ElementUI);
+Vue.use(mavonEditor);
+Vue.use(Message);
 new Vue({
   el: '#app',
   router,
